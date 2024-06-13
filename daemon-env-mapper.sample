@@ -1,0 +1,25 @@
+{
+    "isEnabled": false,
+    "mappingFirst": true,
+    "mappingRules": {
+        "server": {
+            "server-version":   "process.env.BE_VERSION",
+            "server-bind-port": "process.env.BIND_PORT"
+        },
+        "phone-number": {
+            "phone-default-region": "process.env.PHONE_DEFAULT_REGION"
+        },
+        "authentication": {
+            "auth-jwt-ignore-expire":    "process.env.AUTH_JWT_IGNORE_EXPIRE",
+            "auth-jwt-cache-enable":     "process.env.AUTH_JWT_CACHE_ENABLE",
+            "auth-jwt-jwks-uri" :        "process.env.AUTH_JWT_JWKS_URI",
+            "auth-jwt-verify-issuer" :   "process.env.AUTH_JWT_VERIFY_ISSUER",
+            "auth-jwt-verify-audience" : "process.env.AUTH_JWT_VERIFY_AUDIENCE",
+            "auth-jwt-name-grp-admin":   "process.env.GROUP_ADMIN",
+            "auth-jwt-name-scp-admin":   "process.env.SCOPE_ADMIN"
+        },
+        "swagger": {
+            "swagger-hostname": "process.env.SWAGGER_HOSTNAME"
+        }
+    }
+}

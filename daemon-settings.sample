@@ -1,0 +1,87 @@
+###############################################################################
+#                                DAEMON SETTINGS                              #
+###############################################################################
+#
+[process]
+process-pm2-name = "nodejs-fastify-daemon"
+#
+[log-system]
+log-sys-enable = "on"
+log-sys-level  = "info"
+#
+[server]
+server-name         = "NodeJS Fastify Daemon | ENV: Development"
+server-version      = "rel.v1.0.18012021"
+server-welcome      = "Hello Development!"
+server-favicon-path = "./daemon-assets/"
+server-route-map    = "on"
+server-tcp-queue    = 511
+server-bind-addr    = "0.0.0.0"
+server-bind-port    = 3001
+server-public-host  = "localhost"
+server-public-proto = "http"
+#
+[server-compression]
+server-gzip        = "on"
+server-threshold   = 1024
+server-encodings[] = "deflate"
+server-encodings[] = "gzip"
+#
+[security]
+call-rate-enable      = "on"
+call-rate-max         = 1000
+call-rate-ban         = 5
+call-rate-window      = "60s"
+call-rate-whitelist[] = "127.0.0.1"
+call-rate-whitelist[] = "localhost"
+#
+[authentication]
+auth-jwt-ignore-expire     = "off"
+auth-jwt-ignore-not-before = "off"
+auth-jwt-ratelimit-enable  = "on"
+auth-jwt-cache-enable      = "on"
+auth-jwt-cache-max-entries = 5
+auth-jwt-cache-max-age     = "10m"
+auth-jwt-jwks-req-minute   = 10
+auth-jwt-jwks-uri          = ""
+auth-jwt-verify-issuer     = ""
+auth-jwt-verify-audience   = ""
+auth-jwt-name-grp-admin    = ""
+auth-jwt-name-scp-admin    = ""
+#
+[versioning]
+allowed-prefixes   = "on"
+allowed-prefix-uri = "api/v1"
+#
+[phone-number]
+phone-default-region = "IT"
+#
+[server-upload]
+server-fields          = 10
+server-field-name-size = 100
+server-field-size      = 100
+server-files           = 1
+server-file-size       = 10000000
+server-header-pairs    = 2000
+#
+[ssl]
+server-ssl-enable = "off"
+server-ssl-http1  = "off"
+server-ssl-cert   = ""
+server-ssl-key    = ""
+#
+[swagger]
+swagger-enable      = "on"
+swagger-title       = "NodeJS Fastify Daemon: API Reference"
+swagger-description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+swagger-api-version = "v1"
+swagger-hostname    = "localhost:3001"
+swagger-http-path   = "/docs"
+swagger-schemes[]   = "http"
+#
+[swagger-stats]
+swagger-stats-enable = "on"
+#
+###############################################################################
+#                                 END SETTINGS                                #
+###############################################################################

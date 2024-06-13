@@ -1,0 +1,125 @@
+{
+    "isEnabled": true,
+    "mappingFirst": true,
+    "mappingRules": {
+        "server": {
+            "server-name": "process.env.SERVER_NAME",
+            "server-version": "process.env.SERVER_REL_VERSION",
+            "server-welcome": "process.env.SERVER_WELCOME_MESSAGE",
+            "server-route-map": "process.env.SERVER_SHOW_ROUTE_MAP",
+            "server-tcp-queue": "process.env.SERVER_TCP_QUEUE",
+            "server-bind-addr": "process.env.SERVER_BIND_ADDRESS",
+            "server-bind-port": "process.env.SERVER_BIND_PORT",
+            "server-public-host": "process.env.SERVER_PUBLIC_HOST",
+            "server-public-proto": "process.env.SERVER_PUBLIC_PROTOCOL"
+        },
+        "server-http-secure": {
+            "server-ssl-enable": "process.env.SERVER_HTTPS_ENABLE",
+            "server-ssl-http1": "process.env.SERVER_HTTPS_WITH_HTTP_V1",
+            "server-ssl-cert": "process.env.SERVER_HTTPS_CERT_PATH",
+            "server-ssl-key": "process.env.SERVER_HTTPS_KEY_PATH"
+        },
+        "server-webui": {
+            "server-webui-enable": "process.env.SERVER_WEBUI_ROOT_ENABLE"
+        },
+        "server-compression": {
+            "server-gzip": "process.env.SERVER_COMPRESSION_ENABLE",
+            "server-threshold": "process.env.SERVER_COMPRESSION_THRESHOLD",
+            "server-encodings": "process.env.SERVER_COMPRESSION_ENCODING"
+        },
+        "server-websocket": {
+            "socket-io-enable": "process.env.SERVER_WEBSOCKET_ENABLE",
+            "socket-io-cdn-enable": "process.env.SERVER_WEBSOCKET_CDN_ENABLE",
+            "socket-io-listen-path": "process.env.SERVER_WEBSOCKET_BIND_PATH"
+        },
+        "server-upload": {
+            "server-fields": "process.env.SERVER_UPLOAD_MAX_FIELDS",
+            "server-field-name-size": "process.env.SERVER_UPLOAD_MAX_FIELD_SIZE_NAME",
+            "server-field-size": "process.env.SERVER_UPLOAD_MAX_FIELD_SIZE",
+            "server-files": "process.env.SERVER_UPLOAD_MAX_CONCURRENT_FILES",
+            "server-file-size": "process.env.SERVER_UPLOAD_MAX_FILE_SIZE",
+            "server-header-pairs": "process.env.SERVER_UPLOAD_MAX_HEADER_PAIRS"
+        },
+        "server-security": {
+            "call-rate-enable": "process.env.SERVER_SECURITY_RATECALL_ENABLE",
+            "call-rate-max": "process.env.SERVER_SECURITY_MAX_RATECALL",
+            "call-rate-ban": "process.env.SERVER_SECURITY_FAILS_BEFORE_BAN",
+            "call-rate-window": "process.env.SERVER_SECURITY_RATECALL_WINDOW",
+            "call-rate-whitelist": "process.env.SERVER_SECURITY_RATECALL_WHITELIST"
+        },
+        "server-prefixing": {
+            "server-prefix-enable": "process.env.SERVER_PREFIX_ENABLE",
+            "server-prefix-path": "process.env.SERVER_PREFIX_PATH"
+        },
+        "database": {
+            "mariadb-compress-enable": "process.env.DATABASE_COMPRESS_ENABLE",
+            "mariadb-host": "process.env.DATABASE_HOSTNAME",
+            "mariadb-port": "process.env.DATABASE_PORT",
+            "mariadb-user": "process.env.DATABASE_USERNAME",
+            "mariadb-pswd": "process.env.DATABASE_PASSWORD",
+            "mariadb-dbname": "process.env.DATABASE_DB_NAME",
+            "mariadb-conn-limit": "process.env.DATABASE_CONN_LIMIT",
+            "mariadb-conn-timeout": "process.env.DATABASE_CONN_TIMEOUT"
+        },
+        "csa-documental": {
+            "documental-base-retrival-url": "process.env.CSA_DOCUMENTAL_BASE_RETRIVAL_URL",
+            "documental-base-repository-url": "process.env.CSA_DOCUMENTAL_BASE_REPOSITORY_URL"
+        },
+        "resolutions-api":{
+            "res-base-url": "process.env.RES_BASE_URL"
+        },
+        "kafka-system": {
+            "kafka-sys-enable": "process.env.KAFKA_ENABLE",
+            "kafka-sys-remote-brokers": "process.env.KAFKA_BROKERS",
+            "kafka-sys-conn-timeout": "process.env.KAFKA_CONNECTION_TIMEOUT",
+            "kafka-sys-request-timeout": "process.env.KAFKA_REQUEST_TIMEOUT",
+            "kafka-sys-consumer-groupid": "process.env.KAFKA_CONSUMER_GROUP_ID",
+            "kafka-sys-producer-groupid": "process.env.KAFKA_PRODUCER_GROUP_ID"
+        },
+        "elk-system": {
+            "elk-sys-enable" : "process.env.ELASTIC_ENABLE",
+            "elk-sys-remote-node" : "process.env.ELASTIC_REMOTE_NODE",
+            "elk-sys-remote-retries" : "process.env.ELASTIC_REMOTE_RETRIES",
+            "elk-sys-proxy-enable" : "process.env.ELASTIC_PROXY_ENABLE",
+            "elk-sys-proxy-path" : "process.env.ELASTIC_PROXY_PATH",
+            "elk-sys-resurrect-strategy" : "process.env.ELASTIC_RESURRECT_STRATEGY",
+            "elk-sys-compression-enable" : "process.env.ELASTIC_COMPRESSION_ENABLE",
+            "elk-sys-sniff-on-start" : "process.env.ELASTIC_SNIFF_ON_START",
+            "elk-sys-request-timeout" : "process.env.ELASTIC_REQUEST_TIMEOUT",
+            "elk-sys-ping-timeout" : "process.env.ELASTIC_PING_TIMEOUT"
+        },
+        "authentication": {
+            "auth-jwt-use-fake-session": "process.env.AUTHENTICATION_FAKE_SESSION_ENABLE",
+            "auth-jwt-jwks-uri": "process.env.AUTHENTICATION_JWKS_REMOTE_URI",
+            "auth-jwt-cache-enable": "process.env.AUTHENTICATION_JWKS_CACHE_ENABLE",
+            "auth-jwt-cache-max-entries": "process.env.AUTHENTICATION_JWKS_CACHE_MAX_ENTRIES",
+            "auth-jwt-cache-max-age": "process.env.AUTHENTICATION_JWKS_CACHE_MAX_AGE",
+            "auth-jwt-ratelimit-enable": "process.env.AUTHENTICATION_JWKS_RATE_LIMIT_ENABLE",
+            "auth-jwt-jwks-reqs-minute": "process.env.AUTHENTICATION_JWKS_REQUESTS_PER_MINUTE",
+            "auth-jwt-ignore-expire": "process.env.AUTHENTICATION_TOKEN_IGNORE_EXPIRE",
+            "auth-jwt-ignore-not-before": "process.env.AUTHENTICATION_TOKEN_IGNORE_NOT_BEFORE",
+            "auth-jwt-verify-issuer": "process.env.AUTHENTICATION_TOKEN_VERIFY_ISSUER",
+            "auth-jwt-verify-audience": "process.env.AUTHENTICATION_TOKEN_VERIFY_AUDIENCE"
+        },
+        "swagger": {
+            "swagger-enable": "process.env.SWAGGER_ENABLE",
+            "swagger-models": "process.env.SWAGGER_MODELS_ENABLE",
+            "swagger-hostname": "process.env.SWAGGER_WEBUI_HOSTNAME",
+            "swagger-http-path": "process.env.SWAGGER_WEBUI_PATH",
+            "swagger-title": "process.env.SWAGGER_WEBUI_TITLE",
+            "swagger-description": "process.env.SWAGGER_WEBUI_DESCRIPTION",
+            "swagger-api-version": "process.env.SWAGGER_WEBUI_API_VERSION",
+            "swagger-schemes": "process.env.SWAGGER_WEBUI_SCHEMES"
+        },
+        "swagger-stats": {
+            "swagger-stats-enable": "process.env.SWAGGER_METRICS_ENABLE"
+        },
+        "log-system": {
+            "log-sys-enable": "process.env.LOGGER_ENABLE",
+            "log-sys-level": "process.env.LOGGER_LEVEL"
+        },
+        "phone-number": {
+            "phone-default-region": "process.env.UTILITIES_PHONE_DEFAULT_REGION"
+        }
+    }
+}
