@@ -27,7 +27,7 @@ const userUtils = require("../daemon-utilities/utility-user");
 
 /**
  * @author:      mmarella
- * @version:     06/08/2021 (dd/mm/yyyy)
+ * @version:     
  * @description: Permette di ricercare l'entità.
  * @type:        Sync Function
  *
@@ -61,7 +61,7 @@ let __stmt_SearchView_UsersList = (
     
     */
     let statement_file =  `
-    SELECT username,mail,descrizione,ruolo FROM user ;`
+    SELECT username,mail,descrizione,ruolo FROM users ;`
     
 
 
@@ -97,7 +97,7 @@ let __stmt_SearchView_UsersDelete = (
     
     */
     let statement_file =  `
-    DELETE from user where mail= :p_req_entity_mail RETURNING '1' ;`
+    DELETE from users where mail= :p_req_entity_mail RETURNING '1' ;`
     
 
 
@@ -122,7 +122,7 @@ let __stmt_SearchView_UsersUpdate = (
 
 
     let statement_file =  `
-    UPDATE user
+    UPDATE users
     SET 
     nome = :p_req_entity_Nome,
     cognome = :p_req_entity_Cognome,
@@ -162,13 +162,14 @@ let __stmt_SearchView_UsersInsert = (
     
     */
     let statement_file =  `
-    insert into user (
+    insert into users (
         username,
         password,
         mail,
         regdate,
         descrizione,
-        ruolo
+        ruolo,
+        id_favourite
        ) 
         values(
             :p_req_entity_username,
@@ -176,9 +177,10 @@ let __stmt_SearchView_UsersInsert = (
             :p_req_entity_mail,
             :p_req_entity_regdate,
             :p_req_entity_descrizione,
-            :p_req_entity_ruolo
+            :p_req_entity_ruolo,
+            :p_req_entity_fav
         )
-        RETURNING ID_User
+        RETURNING id
     ;`
 
 
@@ -197,14 +199,15 @@ let __stmt_SearchView_Login = (
     // Prepare predicate
     let statement_file = `
         SELECT
-            ID_User as id,
+            id as id,
             username,
             regdate,
             descrizione,
-            ruolo
-        FROM user
+            ruolo,
+            id_favourite
+        FROM users
         WHERE
-            mail= :p_req_entity_Email AND
+            username= :p_req_entity_user AND
             password= md5(:p_req_entity_Password)
         LIMIT 1
     ;`;
@@ -231,7 +234,7 @@ let __stmt_SearchView_ChangePassword = (
 
 //UPDATE users SET password = md5('`+(FilterPassword)+`') WHERE (email = '`+(FilterEmail)+`');
     let statement_file = `
-    UPDATE user SET password = md5(:p_req_entity_Password) WHERE (email = :p_req_entity_Email);
+    UPDATE users SET password = md5(:p_req_entity_Password) WHERE (mail = :p_req_entity_Email);
      `;
      
     // Return statement
@@ -242,7 +245,7 @@ let __stmt_SearchView_ChangePassword = (
 const moduleObj = Object.freeze({
     /**
      * @author:      mmarella
-     * @version:     06/08/2021 (dd/mm/yyyy)
+     * @version:     
      * @description: Permette di ricercare l'entità.
      * @type:        Async Function
      *
@@ -429,7 +432,7 @@ const moduleObj = Object.freeze({
             ),
             // NAMED PARAMETERS
             {
-                p_req_entity_Email: requestData.email,
+                p_req_entity_mail: requestData.mail,
                 p_req_session_id: sessionData.id
             }
         )
@@ -669,6 +672,7 @@ const moduleObj = Object.freeze({
                 p_req_entity_regdate: requestData.regdate   ?   requestData.regdate : moment().format("YYYY-MM-DD HH:mm:ss"),
                 p_req_entity_descrizione: requestData.descrizione,
                 p_req_entity_ruolo: requestData.ruolo,
+                p_req_entity_fav : requestData.id_favourite ? requestData.id_favourite : '0',
                 p_req_session_id: sessionData.id
             }
         )
@@ -771,7 +775,7 @@ const moduleObj = Object.freeze({
             ),
             // NAMED PARAMETERS
             {
-                p_req_entity_Email: requestData.mail,
+                p_req_entity_user: requestData.username,
                 p_req_entity_Password: requestData.password,
                 p_req_session_id: sessionData.id
             }
@@ -791,7 +795,6 @@ const moduleObj = Object.freeze({
             errnmsg = "Invalid Login or Password";
         }
         else{
-            console.log(rows[0].amm_trasp_type.codpadre)
             let JWT_TOKEN = jwtHandler.sign(
                 rows[0],
                 SettingsMngSingleton.getInstance().getProperty("authentication", "auth-jwt-jwt-secret"),
@@ -828,12 +831,12 @@ const moduleObj = Object.freeze({
             sessionData)) {
             // Propagate error
             return respSystem().reset(
-                "One or more 'GenericDocument.GetAllFiles' requirements are not satisfied!",
+                "One or more 'Users.ChangePassw' requirements are not satisfied!",
                 400
             );
         }
 
-       let Email=requestData.email;
+       let Email=requestData.mail;
         let Password = requestData.password;
         // Get highest role for current token
         // const highestWorkingGroup = sysUtils.resolveHighestWorkingRole(sessionData.roles);

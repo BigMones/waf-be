@@ -32,7 +32,7 @@ const jsonUtils   = require("../daemon-utilities/utility-json");
 // ------------------------------------------------------------------------- //
 
 /**
- * @author:      lsvanzo
+ * @author:      mmmarella
  * @version:     18/01/2021 (dd/mm/yyyy)
  * @description: Genera una Response manipolabile per invio al client.
  * @type:        Sync Function
@@ -101,7 +101,7 @@ const moduleObj = Object.freeze((
     // Prepare response object
     return Object.freeze({
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Istanza privata raw della response generata
          * @type:        Object
@@ -114,7 +114,7 @@ const moduleObj = Object.freeze((
             "httpCode": __pHttpCode
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Verifica se è flaggato come "COMPLETO"
          * @type:        Sync Function
@@ -132,7 +132,7 @@ const moduleObj = Object.freeze((
             return ((__pRowCount > 0) ? true : false);
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Permette di rispristinare lo stato della response
          * @type:        Sync Function
@@ -160,7 +160,7 @@ const moduleObj = Object.freeze((
             return Object.freeze(this);
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Permette di sostituire la response prima dell'invio
          * @type:        Sync Function
@@ -178,7 +178,7 @@ const moduleObj = Object.freeze((
             return Object.freeze(this);
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Permette di manipolare la response prima dell'invio
          * @type:        Sync Function
@@ -198,7 +198,7 @@ const moduleObj = Object.freeze((
             return Object.freeze(this);
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Permette di manipolare il payload della response prima dell'invio
          * @type:        Sync Function
@@ -214,7 +214,7 @@ const moduleObj = Object.freeze((
             return Object.freeze(this);
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     19/03/2021 (dd/mm/yyyy)
          * @description: Modifica l'HttpStatusCode
          * @type:        Sync Function
@@ -229,7 +229,7 @@ const moduleObj = Object.freeze((
             return Object.freeze(this);
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     19/03/2021 (dd/mm/yyyy)
          * @description: Ritorna l'HttpStatusCode
          * @type:        Sync Function
@@ -241,7 +241,7 @@ const moduleObj = Object.freeze((
             return this.__raw.httpCode;
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Ritorna, se esistono, i records associati alla response
          * @type:        Sync Function
@@ -253,7 +253,7 @@ const moduleObj = Object.freeze((
             return Array.isArray(this.__raw.rows) ? this.__raw.rows : [];
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Ritorna, se esiste, il payload associato alla response
          * @type:        Sync Function
@@ -265,7 +265,7 @@ const moduleObj = Object.freeze((
             return this.__raw.payload;
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Ritorna la response nella forma standard della piattaforma
          * @type:        Sync Function
@@ -287,7 +287,7 @@ const moduleObj = Object.freeze((
             });
         },
         /**
-         * @author:      lsvanzo
+         * @author:      mmmarella
          * @version:     18/01/2021 (dd/mm/yyyy)
          * @description: Ritorna la response nella forma ridotta della piattaforma
          * @type:        Sync Function

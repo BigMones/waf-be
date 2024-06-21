@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------- //
 
 /**
- * @author:      lsvanzo
+ * @author:      mmmarella
  * @version:     06/08/2021 (dd/mm/yyyy)
  * @description: Ritorna la lista entities di swagger.
  * @type:        Sync Function
@@ -26,7 +26,7 @@ const moduleObj = Object.freeze((fastify) => {
     // --------------------------------------------------------------------- |
     fastify.addSchema({
         // Common definitions area
-        $id: "SchemaRequestLogin",
+        $id: "SchemaRequestRegister",
         type: "object",
         description: "Describe the identifier of entity.",
         // Parameters match area
@@ -54,6 +54,10 @@ const moduleObj = Object.freeze((fastify) => {
             ruolo: {
                 type: "string",
                 description: "Ruolo dell'utente all'interno della piattaforma ( Admin o Partecipante di Lega )"
+            },
+            id_favourite:{
+                type:"string",
+                description:"ID della squadra favorita"
             }
         },
         required:["mail","password","username"]
@@ -82,7 +86,23 @@ const moduleObj = Object.freeze((fastify) => {
             }
         }
     });
-
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaLoginPost",
+        type: "object",
+        description: "Describe the current entity.",
+        // Parameters match area
+        properties: {
+            username: {
+                type: "string",
+                description: "Username"
+            },
+            password: {
+                type: "string",
+                description: "password"
+            }
+        }
+    });
     // --------------------------------------------------------------------- |
 
     fastify.addSchema({
@@ -136,12 +156,12 @@ const moduleObj = Object.freeze((fastify) => {
 
     fastify.addSchema({
         // Common definitions area
-        $id: "SchemaRequestLoginToken",
+        $id: "SchemaRequestChangeToken",
         type: "object",
         description: "Describe the identifier of entity.",
         // Parameters match area
         properties: {
-            email: {
+            mail: {
                 type: "string",
                 description: "Email Paziente"
             },
@@ -150,9 +170,22 @@ const moduleObj = Object.freeze((fastify) => {
                 description: "Nome Paziente"
             }
         },
-        required:["email","password"]
+        required:["mail","password"]
     });
-
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaRequestDeleteUser",
+        type: "object",
+        description: "Describe the identifier of entity.",
+        // Parameters match area
+        properties: {
+            mail: {
+                type: "string",
+                description: "Email Paziente"
+            }
+        },
+        required:["mail"]
+    });
     // --------------------------------------------------------------------- |
 
     fastify.addSchema({

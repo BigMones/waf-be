@@ -119,7 +119,7 @@ const __pathSchema_GET_Login = {
 // ------------------------------------------------------------------------- //
 
 /**
- * @author:      lsvanzo
+ * @author:      mmmarella
  * @version:     06/08/2021 (dd/mm/yyyy)
  * @description: Fornisce informazioni sul servizio
  * @type:        Sync Function
