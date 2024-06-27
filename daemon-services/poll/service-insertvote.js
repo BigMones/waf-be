@@ -83,7 +83,11 @@ const { DbSingleton } = require("../../daemon-kernels/kernel-database");
 const respSystem      = require("../../daemon-kernels/kernel-response");
 
 // Load entities
-const entityObj = require("../../daemon-entities/entity-user");
+const entityObj = require("../../daemon-entities/entity-votes");
+
+//Load Solana Libs
+const { Connection, PublicKey, clusterApiUrl, Transaction, SystemProgram } = require('@solana/web3.js');
+const bs58 = require('bs58');
 
 
 // ------------------------------------------------------------------------- //
@@ -108,23 +112,36 @@ const moduleObj = Object.freeze(async (req, reply) => {
     try {
         // Get conn from poll
         __tryConn = await DbSingleton.getInstance().db().getConnection();
+        const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
+        const { publicKey, vote } = req.body;
 
-        if( req.body.username){
+        const programId = new PublicKey('YOUR_PROGRAM_ID_HERE');
+
+        // Public key of the user's wallet (provided by the frontend)
+        const userPublicKey = new PublicKey(publicKey);
+      
+        // Create a transaction
+        const transaction = new Transaction().add({
+          keys: [{ pubkey: userPublicKey, isSigner: true, isWritable: true }],
+          programId,
+          data: Buffer.from([vote]), // Send the vote option as a single byte
+        });
+
+            const { signature } = await connection.sendTransaction(transaction, [userPublicKey], {
+              skipPreflight: false,
+              preflightCommitment: 'confirmed',
+            });
+        
+            await connection.confirmTransaction(signature, 'confirmed');
+        
+          
 
         // Prepare statements
-       factoryEntity = await entityObj.loginCheck(
+       factoryEntity = await entityObj.insertPoll(
             __tryConn,
             req.body,
             {/* EMPTY SESSION */} // req.session
         );
-    }else{
-               // Prepare statements
-               factoryEntity = await entityObj.loginWalletCheck(
-                __tryConn,
-                req.body,
-                {/* EMPTY SESSION */} // req.session
-            ); 
-    }
 
 }
     catch (err) {

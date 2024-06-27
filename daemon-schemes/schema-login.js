@@ -58,6 +58,14 @@ const moduleObj = Object.freeze((fastify) => {
             id_favourite:{
                 type:"string",
                 description:"ID della squadra favorita"
+            },
+            is_mvf:{
+                type:"string",
+                description: "Controllo se l'utente è un MVF o no"
+            },
+            pubkey:{
+                type:"string",
+                description:"Public Key del Phantom Wallet"
             }
         },
         required:["mail","password","username"]
@@ -100,6 +108,10 @@ const moduleObj = Object.freeze((fastify) => {
             password: {
                 type: "string",
                 description: "password"
+            },
+            pubkey:{
+                type:"string",
+                description:"Public Key del Phantom Wallet"
             }
         }
     });

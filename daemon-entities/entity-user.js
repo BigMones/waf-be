@@ -61,7 +61,7 @@ let __stmt_SearchView_UsersList = (
     
     */
     let statement_file =  `
-    SELECT username,mail,descrizione,ruolo FROM users ;`
+    SELECT username,mail,descrizione,ruolo,pubkey FROM users ;`
     
 
 
@@ -124,11 +124,13 @@ let __stmt_SearchView_UsersUpdate = (
     let statement_file =  `
     UPDATE users
     SET 
-    nome = :p_req_entity_Nome,
-    cognome = :p_req_entity_Cognome,
-    role= :p_req_entity_Role,
-    tipo_pubblicazione= :p_req_entity_TipoPubb,
-    amm_trasp_type = :p_req_entity_amm_trasp_type
+    username = :p_req_entity_username,
+    descrizione = :p_req_entity_descrizione,
+    ruolo= :p_req_entity_ruolo,
+    id_favourite= :p_req_entity_favourite,
+    is_mvf = :p_req_entity_mvf,
+    pubkey = :p_req_entity_pubkey
+
     where email = :p_req_entity_mail;`
 
 
@@ -209,6 +211,34 @@ let __stmt_SearchView_Login = (
         WHERE
             username= :p_req_entity_user AND
             password= md5(:p_req_entity_Password)
+        LIMIT 1
+    ;`;
+
+    
+    // Return statement
+    return statement_file;
+
+};
+let __stmt_SearchView_PubKeyLogin = (
+    operateWithPrivilegies = null
+) => {
+    // Debug visibility
+    logger.debug("SQLRBAC<notices>.OperateWithPrivilegies():  " + JSON.stringify(
+        operateWithPrivilegies, null, 4
+    ));
+
+    // Prepare predicate
+    let statement_file = `
+        SELECT
+            id as id,
+            username,
+            regdate,
+            descrizione,
+            ruolo,
+            id_favourite
+        FROM users
+        WHERE
+            pubkey= :p_req_entity_publickey
         LIMIT 1
     ;`;
 
@@ -538,13 +568,16 @@ const moduleObj = Object.freeze({
                 stmtSearchEntity,
                 paginator
             ),
-            // NAMED PARAMETERS
+            // NAMED PARAMETERS,
+
             {
                 p_req_entity_id: entity_id,
-                p_req_entity_titolo: entityRecordData.rows[0]["Titolo"],
-                p_req_entity_nomefile: entityRecordData.rows[0]["NomeFile"],
-                p_req_entity_published: entityRecordData.rows[0]["published"],
-                p_req_entity_File: entityRecordData.rows[0]["File"],
+                p_req_entity_username: entityRecordData.rows[0]["username"],
+                p_req_entity_descrizione: entityRecordData.rows[0]["descrizione"],
+                p_req_entity_ruolo: entityRecordData.rows[0]["ruolo"],
+                p_req_entity_favourite: entityRecordData.rows[0]["id_favourite"],
+                p_req_entity_mvf: entityRecordData.rows[0]["is_mvf"],
+                p_req_entity_pubkey: entityRecordData.rows[0]["pubkey"],
                 p_req_session_id: sessionData.id
             }
         )
@@ -567,7 +600,7 @@ const moduleObj = Object.freeze({
             errnmsg = "The requested resource could not be found!";
         }        else {
             // Get current entity data for merge
-            ({ rows, rowCount, error } = await cioUtils.getCioRecordData(
+            ({ rows, rowCount, error } = await userUtils.getUserRecordData(
                 dbConnection,
                 entity_id
             ));
@@ -793,6 +826,120 @@ const moduleObj = Object.freeze({
         else if (rowCount <= 0) {
             // Propagate error
             errnmsg = "Invalid Login or Password";
+        }
+        else{
+            let JWT_TOKEN = jwtHandler.sign(
+                rows[0],
+                SettingsMngSingleton.getInstance().getProperty("authentication", "auth-jwt-jwt-secret"),
+                {
+                    algorithm: SettingsMngSingleton.getInstance().getProperty("authentication", "auth-jwt-algorithm"),
+                    expiresIn: SettingsMngSingleton.getInstance().getProperty("authentication", "auth-jwt-expire-in"),
+                    audience:  SettingsMngSingleton.getInstance().getProperty("authentication", "auth-jwt-verify-audience"),
+                    issuer:    SettingsMngSingleton.getInstance().getProperty("authentication", "auth-jwt-verify-issuer")
+                }
+            );
+            rows = [{
+                token:JWT_TOKEN,
+                creation_time:Date.now(),
+                expiresIn:"about 2 hours",
+                //amm_trasp_type: rows.data.amm_trasp_type
+            }]
+        }
+
+        // Normalize rowCount based to paginator
+        ({rows, rowCount, errnmsg} = sqlUtils.normalizePaginatorResults(
+            rows,
+            rowCount,
+            errnmsg
+        ));
+
+        // Return response object
+        return respSystem(rowCount, errnmsg, rows);
+    },
+    loginWalletCheck: async (dbConnection, requestData, sessionData) => {
+        // Check requirements
+        if (!(
+            dbConnection &&
+            requestData  &&
+            sessionData)) {
+            // Propagate error
+            return respSystem().reset(
+                "One or more 'GenericDocument.GetAllFiles' requirements are not satisfied!",
+                400
+            );
+        }
+
+        // Get highest role for current token
+        // const highestWorkingGroup = sysUtils.resolveHighestWorkingRole(sessionData.roles);
+
+        // Prepare visibility storage
+        let operateWithPrivilegies = {
+            superuser: false,
+        }
+
+        // Update visibility based to roles
+        /*switch (highestWorkingGroup) {
+            // ADMIN
+            case sysUtils.getEnums.UserRoles.Administrator:
+                // Set statement director
+                operateWithPrivilegies.superuser = true;
+                break;
+
+            // GENERIC
+            case sysUtils.getEnums.UserRoles.Generic:
+                // DEFAULT LOGIC, DO NOTHING
+                break;
+
+            // UNKNOWN => BLOCK!
+            default:
+                // Propagate error
+                return respSystem().reset(
+                    "Permission call requirements are not satisfied!",
+                    403
+                );
+        }*/
+
+        // Prepare data to insert and send
+
+        // Prepare statements
+        const stmtSearchEntity = __stmt_SearchView_PubKeyLogin(
+            operateWithPrivilegies
+
+        );
+        // Prepare error storage
+        let errnmsg = null;
+
+        // Get paginator options if exist
+        const paginator = sqlUtils.extractPaginator(
+            requestData
+        );
+
+        // STEP.1: Exec query as sync-call
+        let {rows, rowCount, error} = await dbConnection.query(
+            // SQL STATEMENT
+            sqlUtils.injectPagination(
+                stmtSearchEntity,
+                paginator
+            ),
+            // NAMED PARAMETERS
+            {
+                p_req_entity_publickey: requestData.pubkey,
+                p_req_session_id: sessionData.id
+            }
+        )
+        // DO NOT REMOVE FOR CLIENT RESULTS!
+        .then((data) => { return { rowCount: data.length, rows: data, error: null } })
+        // DO NOT REMOVE FOR CLIENT!
+        .catch((err) => { return { rowCount: -1, rows: [], error: err.message } });
+
+        // Set errors
+        if (rowCount < 0) {
+            // Propagate error
+            errnmsg = error;
+        }
+        else if (rowCount <= 0) {
+            // Propagate error
+            errnmsg = "Phantom Wallet not Found";
         }
         else{
             let JWT_TOKEN = jwtHandler.sign(

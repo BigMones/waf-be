@@ -209,6 +209,55 @@ const __pathSchema_DELETE_User = {
     //  END
     // ---------------------------------------------------------->
 };
+const __pathSchema_PUT_User = {
+    // ---------------------------------------------------------->
+    //  SWAGGER INFORMATIONS
+    // ---------------------------------------------------------->
+        hide:        false,
+        tags:        ["Login/Register Services"],
+        summary:     "Servizio Per la Login e la registrazione utenti",
+        description: "",
+    // ---------------------------------------------------------->
+    //  OPERATION ID
+    // ---------------------------------------------------------->
+        operationId: "User_update",
+    // ---------------------------------------------------------->
+    //  REQUEST SCHEMAS
+    // ---------------------------------------------------------->
+        query: { $ref: "SchemaRequestQueryPagination#"},
+         //params: {},
+         body:   {$ref:"SchemaRequestRegister#" },
+    // ---------------------------------------------------------->
+    //  RESPONSE SCHEMAS
+    // ---------------------------------------------------------->
+        response: {
+            200: {            type: "object",
+            properties: {
+                rowCount: {
+                    type: 'integer'
+                },
+                message: {
+                    type: ['string', 'object'],
+                    nullable: true
+                },
+                rows: {ref$:"schema_login_validation#"}
+            }},
+            400: { $ref: "SchemaResponseError400#" },
+            401: { $ref: "SchemaResponseError401#" },
+            403: { $ref: "SchemaResponseError403#" },
+            429: { $ref: "SchemaResponseError429#" },
+            500: { $ref: "SchemaResponseError500#" }
+        },
+    // ---------------------------------------------------------->
+    //  SECURITY SCHEMAS
+    // ---------------------------------------------------------->
+        /*security: [
+             { "bearer_jwt_token": [] }
+        ]*/
+    // ---------------------------------------------------------->
+    //  END
+    // ---------------------------------------------------------->
+};
 // ------------------------------------------------------------------------- //
 
 
@@ -301,7 +350,23 @@ const moduleObj = Object.freeze((/*fastify*/) => {
                 // --------------------------------------------------------- #
             }
         ],
-
+        "/api/v2/update_pw": [
+            {
+                // --------------------------------------------------------- #
+                method: "PUT",
+                // --------------------------------------------------------- #
+                schema: __pathSchema_PUT_User,
+                // --------------------------------------------------------- #
+                preHandler: null /*fastify.auth([
+                    fastify.authorizationBearerJWT
+                ])*/,
+                // --------------------------------------------------------- #
+                handler: require("../daemon-services/users/service-updateuser"),
+                // --------------------------------------------------------- #
+                postHandler: null
+                // --------------------------------------------------------- #
+            }
+        ],
 
         // ----------------------------------------------------------------- |
     };

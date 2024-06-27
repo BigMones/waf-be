@@ -109,22 +109,12 @@ const moduleObj = Object.freeze(async (req, reply) => {
         // Get conn from poll
         __tryConn = await DbSingleton.getInstance().db().getConnection();
 
-        if( req.body.username){
-
         // Prepare statements
-       factoryEntity = await entityObj.loginCheck(
+       factoryEntity = await entityObj.updateUser(
             __tryConn,
             req.body,
             {/* EMPTY SESSION */} // req.session
         );
-    }else{
-               // Prepare statements
-               factoryEntity = await entityObj.loginWalletCheck(
-                __tryConn,
-                req.body,
-                {/* EMPTY SESSION */} // req.session
-            ); 
-    }
 
 }
     catch (err) {
