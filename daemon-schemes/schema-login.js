@@ -326,6 +326,10 @@ const moduleObj = Object.freeze((fastify) => {
                     mvf_pos: {
                         type: "string",
                         description: "Token decode"
+                    },
+                    id: {
+                        type:"string",
+                        description: "Lorem Ipsum"
                     }
 
 

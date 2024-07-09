@@ -313,7 +313,7 @@ let __stmt_SearchView_WafTable = (
 
 //UPDATE users SET password = md5('`+(FilterPassword)+`') WHERE (email = '`+(FilterEmail)+`');
     let statement_file = `
-    Select username, id_favourite,mvf_pos from users where is_mvf = '1'
+    Select username, id_favourite,mvf_pos, id from users where is_mvf = '1'
     ORDER BY mvf_pos ASC;
      `;
      

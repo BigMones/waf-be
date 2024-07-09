@@ -504,7 +504,7 @@ const moduleObj = Object.freeze((/*fastify*/) => {
                 // --------------------------------------------------------- #
                 method: "GET",
                 // --------------------------------------------------------- #
-                schema: __pathSchema_GET_UserInfo,
+                schema: __pathSchema_GET_WafTable,
                 // --------------------------------------------------------- #
                 preHandler:null /*fastify.auth([
                     fastify.authorizationBearerJWT
