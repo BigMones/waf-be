@@ -26,26 +26,14 @@ const moduleObj = Object.freeze((fastify) => {
     // --------------------------------------------------------------------- |
     fastify.addSchema({
         // Common definitions area
-        $id: "SchemaRequestPollCreate",
+        $id: "SchemaRequestTeam",
         type: "object",
         description: "Describe the identifier of entity.",
         // Parameters match area
         properties: {
-            choices_name: {
-                type: "string",
-                description: "Scelte"
-            },
-            choices_id: {
-                type: "string",
-                description: "id_scelte"
-            },
             id_team: {
                 type: "string",
-                description: "Mail"
-            },
-            votes_number: {
-                type: "string",
-                description: "numero totale di voti"
+                description: "Scelte"
             }
         },
         //required:["mail","password","username"]
@@ -56,7 +44,7 @@ const moduleObj = Object.freeze((fastify) => {
 
     fastify.addSchema({
         // Common definitions area
-        $id: "schema_poll_validation",
+        $id: "schema_team_validation",
         description: "check if all fields are correct",
         type: "object",
         properties: {
@@ -70,26 +58,35 @@ const moduleObj = Object.freeze((fastify) => {
             rows: {
                 type: "array",
                 items: {
-                    id_vote: {
+                    id_team: {
                         type: "string",
                         description: "Id del voto"
                     },
-                    choices_name: {
-                        type: "string",
-                        description: "Scelte"
-                    },
-                    choices_id: {
+                    nome: {
                         type: "string",
                         description: "id_scelte"
                     },
-                    id_team: {
+                    id_campionato: {
                         type: "string",
                         description: "Mail"
                     },
-                    votes_number: {
+                    anno_creazione: {
                         type: "string",
                         description: "numero totale di voti"
-                    }
+                    },
+                    status: {
+                        type: "string",
+                        description: "numero totale di voti"
+                    },
+                    nome_champ: {
+                        type: "string",
+                        description: "numero totale di voti"
+                    },
+                    paese: {
+                        type: "string",
+                        description: "numero totale di voti"
+                    },
+                    
 
                 }
             }

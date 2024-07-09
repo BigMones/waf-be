@@ -83,7 +83,7 @@ const { DbSingleton } = require("../../daemon-kernels/kernel-database");
 const respSystem      = require("../../daemon-kernels/kernel-response");
 
 // Load entities
-const entityObj = require("../../daemon-entities/entity-votes");
+const entityObj = require("../../daemon-entities/entity-team");
 
 
 // ------------------------------------------------------------------------- //
@@ -110,7 +110,7 @@ const moduleObj = Object.freeze(async (req, reply) => {
         __tryConn = await DbSingleton.getInstance().db().getConnection();
 
         // Prepare statements
-       factoryEntity = await entityObj.insertPoll(
+       factoryEntity = await entityObj.viewTeamInfo(
             __tryConn,
             req.body,
             {/* EMPTY SESSION */} // req.session

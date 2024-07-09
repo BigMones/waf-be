@@ -486,6 +486,8 @@
     //  START: Custom schemas for project
     // ===================================================================== //
     require("./daemon-schemes/schema-login")(fastify);
+    require("./daemon-schemes/schema-poll")(fastify);
+    require("./daemon-schemes/schema-team")(fastify);
 
     // ===================================================================== //
     //  END: Custom schemas for project
@@ -527,6 +529,8 @@
         //  START: Custom routes for project
         // ================================================================= //
         routeLoader(fastify, "user", "handler-user");
+        routeLoader(fastify, "poll", "handler-poll");
+        routeLoader(fastify, "team", "handler-team");
   
 
 

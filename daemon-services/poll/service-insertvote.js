@@ -86,9 +86,15 @@ const respSystem      = require("../../daemon-kernels/kernel-response");
 const entityObj = require("../../daemon-entities/entity-votes");
 
 //Load Solana Libs
-const { Connection, PublicKey, clusterApiUrl, Transaction, SystemProgram } = require('@solana/web3.js');
-const bs58 = require('bs58');
+const { Connection, PublicKey, clusterApiUrl, Keypair } = require('@solana/web3.js');
+const { Program, AnchorProvider, web3 } = require('@project-serum/anchor');
+const connection = new Connection(clusterApiUrl('devnet'));
+const wallet = Keypair.generate();
 
+const provider = new AnchorProvider(connection, wallet, AnchorProvider.defaultOptions());
+const idl = require('./idl.json');
+const programId = new PublicKey('YOUR_PROGRAM_ID');
+const program = new Program(idl, programId, provider);
 
 // ------------------------------------------------------------------------- //
 //  EXPORT MODULES

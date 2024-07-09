@@ -285,6 +285,54 @@ const moduleObj = Object.freeze((fastify) => {
             }
         }
     });
+    
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaWafInfoPost",
+        type: "object",
+        description: "Describe the current entity.",
+        // Parameters match area
+        properties: {
+            id: {
+                type: "string",
+                description: "id utente"
+            }
+        }
+    });
+    fastify.addSchema({
+        // Common definitions area
+        $id: "schema_waf_validation",
+        description: "check if all fields are correct",
+        type: "object",
+        properties: {
+            rowCount: {
+                type: 'integer'
+            },
+            message: {
+                type: 'string',
+                nullable: true
+            },
+            rows: {
+                type: "array",
+                items: {
+                    username: {
+                        type: "string",
+                        description: "Email Paziente"
+                    },
+                    id_favourite: {
+                        type: "string",
+                        description: "Nome Paziente"
+                    },
+                    mvf_pos: {
+                        type: "string",
+                        description: "Token decode"
+                    }
+
+
+                }
+            }
+        }
+    });
 
 });
 

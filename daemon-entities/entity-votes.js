@@ -129,7 +129,20 @@ let __stmt_SearchView_PollCreate = (
     
     */
     let statement_file =  `
-    DELETE from users where mail= :p_req_entity_mail RETURNING '1' ;`
+      insert into votes (
+        choices_name,
+        choices_id,
+        id_team,
+        votes_number
+       ) 
+        values(
+            :p_req_entity_choices_name,
+            md5(:p_req_entity_choices_id),
+            :p_req_entity_id_team,
+            :p_req_entity_votes_number,
+        )
+        RETURNING id_vote
+    ;`
     
 
 
@@ -649,7 +662,7 @@ const moduleObj = Object.freeze({
 
 
         // Prepare statements
-        const stmtSearchEntity = __stmt_SearchView_UsersInsert(
+        const stmtSearchEntity = __stmt_SearchView_PollCreate(
             operateWithPrivilegies,
             true,
 
@@ -675,20 +688,17 @@ const moduleObj = Object.freeze({
             ),
             // NAMED PARAMETERS
             {
-                p_req_entity_username: requestData.username,
-                p_req_entity_password: requestData.password,
-                p_req_entity_mail: requestData.mail,
-                p_req_entity_regdate: requestData.regdate   ?   requestData.regdate : moment().format("YYYY-MM-DD HH:mm:ss"),
-                p_req_entity_descrizione: requestData.descrizione,
-                p_req_entity_ruolo: requestData.ruolo,
-                p_req_entity_fav : requestData.id_favourite ? requestData.id_favourite : '0',
+                p_req_entity_choices_name: requestData.choices_name,
+                p_req_entity_choices_id: requestData.choices_id,
+                p_req_entity_id_team: requestData.id_team,
+                p_req_entity_votes_number: requestData.votes_number,
                 p_req_session_id: sessionData.id
             }
         )
             // DO NOT REMOVE FOR CLIENT RESULTS!
             .then((data) => { 
                 
-                 var messaggio_corretto = "Registrazione Completata";
+                 var messaggio_corretto = "Poll Creato";
 
 
                 return { rowCount: data.length, rows: [ {res:messaggio_corretto}], error: null }

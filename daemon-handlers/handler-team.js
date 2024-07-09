@@ -13,24 +13,24 @@
 // ------------------------------------------------------------------------- //
 
 // Generate new schema from kernel default
-const __pathSchema_POST_PollCreate = {
+const __pathSchema_POST_FavTeamSearch = {
     // ---------------------------------------------------------->
     //  SWAGGER INFORMATIONS
     // ---------------------------------------------------------->
         hide:        false,
-        tags:        ["Poll/Votes API"],
-        summary:     "Servizi per la creazione e gestione Votazioni",
+        tags:        ["Team/Championship API"],
+        summary:     "Servizi per la creazione e gestione dei team presenti sulla piattaforma",
         description: "",
     // ---------------------------------------------------------->
     //  OPERATION ID
     // ---------------------------------------------------------->
-        operationId: "PollDetails_post",
+        operationId: "TeamDetails_post",
     // ---------------------------------------------------------->
     //  REQUEST SCHEMAS
     // ---------------------------------------------------------->
         query: { $ref: "SchemaRequestQueryPagination#"},
          //params: {},
-         body:   {$ref:"SchemaRequestPollCreate#" },
+         body:   {$ref:"SchemaRequestTeam#" },
     // ---------------------------------------------------------->
     //  RESPONSE SCHEMAS
     // ---------------------------------------------------------->
@@ -44,7 +44,7 @@ const __pathSchema_POST_PollCreate = {
                     type: ['string', 'object'],
                     nullable: true
                 },
-                rows: {ref$:"schema_poll_validation#"}
+                rows: {ref$:"schema_team_validation#"}
             }},
             400: { $ref: "SchemaResponseError400#" },
             401: { $ref: "SchemaResponseError401#" },
@@ -87,18 +87,18 @@ const moduleObj = Object.freeze((/*fastify*/) => {
         // ----------------------------------------------------------------- |
         //  SEARCH
         // ----------------------------------------------------------------- |
-        "/api/v2/poll_create": [
+        "/api/v2/fav_team": [
             {
                 // --------------------------------------------------------- #
                 method: "POST",
                 // --------------------------------------------------------- #
-                schema: __pathSchema_POST_PollCreate,
+                schema: __pathSchema_POST_FavTeamSearch,
                 // --------------------------------------------------------- #
                 preHandler: null /*fastify.auth([
                     fastify.authorizationBearerJWT
                 ])*/,
                 // --------------------------------------------------------- #
-                handler: require("../daemon-services/poll/service-createpoll"),
+                handler: require("../daemon-services/team/service-searchFavTeam"),
                 // --------------------------------------------------------- #
                 postHandler: null
                 // --------------------------------------------------------- #
