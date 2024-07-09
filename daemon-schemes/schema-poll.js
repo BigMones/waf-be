@@ -68,7 +68,7 @@ const moduleObj = Object.freeze((fastify) => {
                 description:"Public Key del Phantom Wallet"
             }
         },
-        required:["mail","password","username"]
+        //required:["mail","password","username"]
     });
 
     // --------------------------------------------------------------------- |

@@ -30,15 +30,14 @@ const userUtils = require("../daemon-utilities/utility-user");
  * @version:     
  * @description: Permette di ricercare l'entità.
  * @type:        Sync Function
- *
- * @param {boolean} EntityNomeFile [true]
+
  * @returns SQL String
  */
 
 let __stmt_SearchView_UsersList = (
     operateWithPrivilegies = null,
     // eslint-disable-next-line no-unused-vars
-    EntityNomeFile = true,
+
     //FileName = ""
 ) => {
 
@@ -48,12 +47,7 @@ let __stmt_SearchView_UsersList = (
         operateWithPrivilegies, null, 4
     ));
 
-    // Prepare predicate
 
-
-    // Prepare filter    
-
-    //const filterNomeFileID = FileName;
 
     /*|-------------QUERY EXAMPLE-------------|
     
@@ -71,10 +65,46 @@ let __stmt_SearchView_UsersList = (
     return statement_file;
 
 };
+let __stmt_SearchView_UserInfo = (
+    operateWithPrivilegies = null,
+    // eslint-disable-next-line no-unused-vars
+
+    //FileName = ""
+) => {
+
+
+    // Debug visibility
+    logger.debug("SQLRBAC<notices>.OperateWithPrivilegies():  " + JSON.stringify(
+        operateWithPrivilegies, null, 4
+    ));
+
+    // Prepare predicate
+
+
+    // Prepare filter    
+
+
+
+    /*|-------------QUERY EXAMPLE-------------|
+    
+
+    
+    */
+    let statement_file =  `
+    SELECT username,mail,descrizione,ruolo,pubkey FROM users where id = :p_req_entity_id ;`
+    
+
+
+    // Return statement
+
+
+    return statement_file;
+
+};
 let __stmt_SearchView_UsersDelete = (
     operateWithPrivilegies = null,
     // eslint-disable-next-line no-unused-vars
-    EntityNomeFile = true,
+
 
 ) => {
 
@@ -89,7 +119,7 @@ let __stmt_SearchView_UsersDelete = (
 
     // Prepare filter    
 
-    //const filterNomeFileID = FileName;
+
 
     /*|-------------QUERY EXAMPLE-------------|
     
@@ -110,7 +140,7 @@ let __stmt_SearchView_UsersDelete = (
 let __stmt_SearchView_UsersUpdate = (
     operateWithPrivilegies = null,
     // eslint-disable-next-line no-unused-vars
-    EntityNomeFile = true,
+
 
 ) => {
 
@@ -141,7 +171,7 @@ let __stmt_SearchView_UsersUpdate = (
 let __stmt_SearchView_UsersInsert = (
     operateWithPrivilegies = null,
     // eslint-disable-next-line no-unused-vars
-    EntityNomeFile = true,
+
 
 ) => {
 
@@ -151,12 +181,6 @@ let __stmt_SearchView_UsersInsert = (
         operateWithPrivilegies, null, 4
     ));
 
-    // Prepare predicate
-
-
-    // Prepare filter    
-
-    //const filterNomeFileID = FileName;
 
     /*|-------------QUERY EXAMPLE-------------|
     
@@ -171,7 +195,8 @@ let __stmt_SearchView_UsersInsert = (
         regdate,
         descrizione,
         ruolo,
-        id_favourite
+        id_favourite,
+        pubkey
        ) 
         values(
             :p_req_entity_username,
@@ -180,7 +205,8 @@ let __stmt_SearchView_UsersInsert = (
             :p_req_entity_regdate,
             :p_req_entity_descrizione,
             :p_req_entity_ruolo,
-            :p_req_entity_fav
+            :p_req_entity_fav,
+            :p_req_entity_pubkey
         )
         RETURNING id
     ;`
@@ -329,7 +355,7 @@ const moduleObj = Object.freeze({
         }*/
 
         // Prepare data to insert and send
-        const NomeFile = requestData.Nomefile ? requestData.NomeFile : null;
+  
 
         // Prepare statements
         const stmtSearchEntity = __stmt_SearchView_UsersList(
@@ -357,7 +383,108 @@ const moduleObj = Object.freeze({
             ),
             // NAMED PARAMETERS
             {
-                p_req_entity_NomeFile: NomeFile,
+                p_req_session_id: sessionData.id
+            }
+        )
+            // DO NOT REMOVE FOR CLIENT RESULTS!
+            .then((data) => { return { rowCount: data.length, rows: data, error: null }
+
+            })
+            // DO NOT REMOVE FOR CLIENT!
+            .catch((err) => { return { rowCount: -1, rows: [], error: err.message } });
+
+        // Set errors
+        if (rowCount < 0) {
+            // Propagate error
+            errnmsg = error;
+        }
+        else if (rowCount <= 0) {
+            // Propagate error
+            errnmsg = "The requested resource could not be found!";
+        }
+
+        // Normalize rowCount based to paginator
+        ({ rows, rowCount, errnmsg } = sqlUtils.normalizePaginatorResults(
+            rows,
+            rowCount,
+            errnmsg
+        ));
+
+        // Return response object
+        return respSystem(rowCount, errnmsg, rows);
+    },
+    viewUserInfo: async (dbConnection, requestData, sessionData) => {
+        // Check requirements
+        if (!(
+            dbConnection &&
+            requestData &&
+            sessionData)) {
+            // Propagate error
+            return respSystem().reset(
+                "One or more 'Users.GetUser' requirements are not satisfied!",
+                400
+            );
+        }
+
+
+        // Get highest role for current token
+        // const highestWorkingGroup = sysUtils.resolveHighestWorkingRole(sessionData.roles);
+
+        // Prepare visibility storage
+        let operateWithPrivilegies = {
+            superuser: false,
+        }
+
+        // Update visibility based to roles
+        /*switch (highestWorkingGroup) {
+            // ADMIN
+            case sysUtils.getEnums.UserRoles.Administrator:
+                // Set statement director
+                operateWithPrivilegies.superuser = true;
+                break;
+
+            // GENERIC
+            case sysUtils.getEnums.UserRoles.Generic:
+                // DEFAULT LOGIC, DO NOTHING
+                break;
+
+            // UNKNOWN => BLOCK!
+            default:
+                // Propagate error
+                return respSystem().reset(
+                    "Permission call requirements are not satisfied!",
+                    403
+                );
+        }*/
+
+
+        // Prepare statements
+        const stmtSearchEntity = __stmt_SearchView_UserInfo(
+            operateWithPrivilegies,
+            true,
+
+        );
+
+
+        // Prepare error storage
+        let errnmsg = null;
+
+        // Get paginator options if exist
+        const paginator = sqlUtils.extractPaginator(
+            requestData
+        );
+
+
+        // STEP.1: Exec query as sync-call
+        let { rows, rowCount, error } = await dbConnection.query(
+            // SQL STATEMENT
+            sqlUtils.injectPagination(
+                stmtSearchEntity,
+                paginator
+            ),
+            // NAMED PARAMETERS
+            {
+                p_req_entity_id: requestData.id,
                 p_req_session_id: sessionData.id
             }
         )
@@ -705,6 +832,7 @@ const moduleObj = Object.freeze({
                 p_req_entity_regdate: requestData.regdate   ?   requestData.regdate : moment().format("YYYY-MM-DD HH:mm:ss"),
                 p_req_entity_descrizione: requestData.descrizione,
                 p_req_entity_ruolo: requestData.ruolo,
+                p_req_entity_pubkey: requestData.pubkey,
                 p_req_entity_fav : requestData.id_favourite ? requestData.id_favourite : '0',
                 p_req_session_id: sessionData.id
             }
@@ -864,7 +992,7 @@ const moduleObj = Object.freeze({
             sessionData)) {
             // Propagate error
             return respSystem().reset(
-                "One or more 'GenericDocument.GetAllFiles' requirements are not satisfied!",
+                "One or more 'User.LoginWallet' requirements are not satisfied!",
                 400
             );
         }

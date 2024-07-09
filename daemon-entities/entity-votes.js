@@ -31,14 +31,14 @@ const userUtils = require("../daemon-utilities/utility-user");
  * @description: Permette di ricercare l'entità.
  * @type:        Sync Function
  *
- * @param {boolean} EntityNomeFile [true]
+
  * @returns SQL String
  */
 
 let __stmt_SearchView_PollView = (
     operateWithPrivilegies = null,
     // eslint-disable-next-line no-unused-vars
-    EntityNomeFile = true,
+
     //FileName = ""
 ) => {
 
@@ -111,7 +111,7 @@ let __stmt_SearchView_PollView = (
 let __stmt_SearchView_PollCreate = (
     operateWithPrivilegies = null,
     // eslint-disable-next-line no-unused-vars
-    EntityNomeFile = true,
+
 
 ) => {
 
@@ -121,12 +121,7 @@ let __stmt_SearchView_PollCreate = (
         operateWithPrivilegies, null, 4
     ));
 
-    // Prepare predicate
 
-
-    // Prepare filter    
-
-    //const filterNomeFileID = FileName;
 
     /*|-------------QUERY EXAMPLE-------------|
     
@@ -147,7 +142,7 @@ let __stmt_SearchView_PollCreate = (
 let __stmt_SearchView_PollDelete = (
     operateWithPrivilegies = null,
     // eslint-disable-next-line no-unused-vars
-    EntityNomeFile = true,
+
 
 ) => {
 
@@ -178,7 +173,7 @@ let __stmt_SearchView_PollDelete = (
 let __stmt_SearchView_PollStats = (
     operateWithPrivilegies = null,
     // eslint-disable-next-line no-unused-vars
-    EntityNomeFile = true,
+
 
 ) => {
 
@@ -188,12 +183,7 @@ let __stmt_SearchView_PollStats = (
         operateWithPrivilegies, null, 4
     ));
 
-    // Prepare predicate
 
-
-    // Prepare filter    
-
-    //const filterNomeFileID = FileName;
 
     /*|-------------QUERY EXAMPLE-------------|
     
@@ -315,7 +305,7 @@ const moduleObj = Object.freeze({
         }*/
 
         // Prepare data to insert and send
-        const NomeFile = requestData.Nomefile ? requestData.NomeFile : null;
+     
 
         // Prepare statements
         const stmtSearchEntity = __stmt_SearchView_PollView(
@@ -343,7 +333,7 @@ const moduleObj = Object.freeze({
             ),
             // NAMED PARAMETERS
             {
-                p_req_entity_NomeFile: NomeFile,
+         
                 p_req_session_id: sessionData.id
             }
         )

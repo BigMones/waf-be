@@ -272,6 +272,20 @@ const moduleObj = Object.freeze((fastify) => {
     });
 
 
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaUserInfoPost",
+        type: "object",
+        description: "Describe the current entity.",
+        // Parameters match area
+        properties: {
+            id: {
+                type: "string",
+                description: "id utente"
+            }
+        }
+    });
+
 });
 
 // Public scope
