@@ -31,19 +31,117 @@ const moduleObj = Object.freeze((fastify) => {
         description: "Describe the identifier of entity.",
         // Parameters match area
         properties: {
-            choices_name: {
+            poll_name: {
                 type: "string",
                 description: "Scelte"
             },
-            choices_id: {
+            id_team: {
                 type: "string",
                 description: "id_scelte"
             },
-            id_team: {
+            first_choice_name: {
                 type: "string",
                 description: "Mail"
             },
-            votes_number: {
+            first_choice_id: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            first_choice_votes: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            second_choice_name: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            second_choice_id: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            second_choice_votes: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            total_votes: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            exp_poll: {
+                type: "string",
+                description: "numero totale di voti"
+            }
+        },
+        //required:["mail","password","username"]
+    });
+
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaRequestPollDelete",
+        type: "object",
+        description: "Describe the identifier of entity.",
+        // Parameters match area
+        properties: {
+            id_vote: {
+                type: "string",
+                description: "Id del voto"
+            }
+        },
+        //required:["mail","password","username"]
+    });
+
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaRequestPollDetails",
+        type: "object",
+        description: "Describe the identifier of entity.",
+        // Parameters match area
+        properties: {
+            id_vote: {
+                type: "string",
+                description: "Id del voto"
+            },
+            id_team:{
+                type: "string",
+                description: "LoremIpsum..."
+            }
+        },
+        //required:["mail","password","username"]
+    });
+
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaRequestVoteInser",
+        type: "object",
+        description: "Describe the identifier of entity.",
+        // Parameters match area
+        properties: {
+            id_vote: {
+                type: "string",
+                description: "Id del voto"
+            },
+
+            id_team: {
+                type: "string",
+                description: "id_scelte"
+            },
+            first_choice_id: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            first_choice_votes: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            second_choice_id: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            second_choice_votes: {
+                type: "string",
+                description: "numero totale di voti"
+            },
+            total_votes: {
                 type: "string",
                 description: "numero totale di voti"
             }
@@ -74,19 +172,43 @@ const moduleObj = Object.freeze((fastify) => {
                         type: "string",
                         description: "Id del voto"
                     },
-                    choices_name: {
+                    poll_name: {
                         type: "string",
                         description: "Scelte"
                     },
-                    choices_id: {
+                    id_team: {
                         type: "string",
                         description: "id_scelte"
                     },
-                    id_team: {
+                    first_choice_name: {
                         type: "string",
                         description: "Mail"
                     },
-                    votes_number: {
+                    first_choice_id: {
+                        type: "string",
+                        description: "numero totale di voti"
+                    },
+                    first_choice_votes: {
+                        type: "string",
+                        description: "numero totale di voti"
+                    },
+                    second_choice_name: {
+                        type: "string",
+                        description: "numero totale di voti"
+                    },
+                    second_choice_id: {
+                        type: "string",
+                        description: "numero totale di voti"
+                    },
+                    second_choice_votes: {
+                        type: "string",
+                        description: "numero totale di voti"
+                    },
+                    total_votes: {
+                        type: "string",
+                        description: "numero totale di voti"
+                    },
+                    exp_poll: {
                         type: "string",
                         description: "numero totale di voti"
                     }

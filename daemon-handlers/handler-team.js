@@ -62,6 +62,55 @@ const __pathSchema_POST_FavTeamSearch = {
     //  END
     // ---------------------------------------------------------->
 };
+const __pathSchema_GET_AllTeams = {
+    // ---------------------------------------------------------->
+    //  SWAGGER INFORMATIONS
+    // ---------------------------------------------------------->
+        hide:        false,
+        tags:        ["Team/Championship API"],
+        summary:     "Servizi per la creazione e gestione dei team presenti sulla piattaforma",
+        description: "",
+    // ---------------------------------------------------------->
+    //  OPERATION ID
+    // ---------------------------------------------------------->
+        operationId: "TeamDetails_getALL",
+    // ---------------------------------------------------------->
+    //  REQUEST SCHEMAS
+    // ---------------------------------------------------------->
+        query: { $ref: "SchemaRequestQueryPagination#"},
+         //params: {},
+         //body:   {$ref:"SchemaRequestTeam#" },
+    // ---------------------------------------------------------->
+    //  RESPONSE SCHEMAS
+    // ---------------------------------------------------------->
+        response: {
+            200: {            type: "object",
+            properties: {
+                rowCount: {
+                    type: 'integer'
+                },
+                message: {
+                    type: ['string', 'object'],
+                    nullable: true
+                },
+                rows: {ref$:"schema_team_validation#"}
+            }},
+            400: { $ref: "SchemaResponseError400#" },
+            401: { $ref: "SchemaResponseError401#" },
+            403: { $ref: "SchemaResponseError403#" },
+            429: { $ref: "SchemaResponseError429#" },
+            500: { $ref: "SchemaResponseError500#" }
+        },
+    // ---------------------------------------------------------->
+    //  SECURITY SCHEMAS
+    // ---------------------------------------------------------->
+        /*security: [
+             { "bearer_jwt_token": [] }
+        ]*/
+    // ---------------------------------------------------------->
+    //  END
+    // ---------------------------------------------------------->
+};
 
 // ------------------------------------------------------------------------- //
 
@@ -99,6 +148,23 @@ const moduleObj = Object.freeze((/*fastify*/) => {
                 ])*/,
                 // --------------------------------------------------------- #
                 handler: require("../daemon-services/team/service-searchFavTeam"),
+                // --------------------------------------------------------- #
+                postHandler: null
+                // --------------------------------------------------------- #
+            }
+        ],
+        "/api/v2/all_team": [
+            {
+                // --------------------------------------------------------- #
+                method: "GET",
+                // --------------------------------------------------------- #
+                schema: __pathSchema_GET_AllTeams,
+                // --------------------------------------------------------- #
+                preHandler: null /*fastify.auth([
+                    fastify.authorizationBearerJWT
+                ])*/,
+                // --------------------------------------------------------- #
+                handler: require("../daemon-services/team/service-getAllTeams"),
                 // --------------------------------------------------------- #
                 postHandler: null
                 // --------------------------------------------------------- #
