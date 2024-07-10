@@ -127,7 +127,7 @@ let __stmt_SearchView_UsersDelete = (
     
     */
     let statement_file =  `
-    DELETE from users where mail= :p_req_entity_mail RETURNING '1' ;`
+    DELETE from users where mail= :p_req_entity_mail ;`
     
 
 
@@ -865,7 +865,7 @@ const moduleObj = Object.freeze({
                  var messaggio_corretto = "Registrazione Completata";
 
 
-                return { rowCount: data.length, rows: [ {res:messaggio_corretto}], error: null }
+                return { rowCount: "1", rows: [ {res:messaggio_corretto}], error: null }
 
             })
             // DO NOT REMOVE FOR CLIENT!

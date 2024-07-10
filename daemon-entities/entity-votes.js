@@ -127,7 +127,7 @@ let __stmt_SearchView_PollCreate = (
 
   
         )
-        RETURNING id_vote
+
     ;`
     
 
