@@ -208,7 +208,6 @@ let __stmt_SearchView_UsersInsert = (
             :p_req_entity_fav,
             :p_req_entity_pubkey
         );
-        SELECT LAST_INSERT_ID();
     `
 
 
