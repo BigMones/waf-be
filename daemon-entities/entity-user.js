@@ -207,9 +207,9 @@ let __stmt_SearchView_UsersInsert = (
             :p_req_entity_ruolo,
             :p_req_entity_fav,
             :p_req_entity_pubkey
-        )
-        RETURNING id
-    ;`
+        );
+        SELECT LAST_INSERT_ID();
+    `
 
 
     // Return statement
