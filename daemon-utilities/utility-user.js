@@ -40,15 +40,18 @@ const moduleObj = Object.freeze({
         // Prepare statement
         let STMT_TO_EXEC = `
             SELECT 
-            entity.ID as ID_User,
-            entity.username as Username,
-            entity.mail as Mail,
-            entity.password as Password,
-            entity.descrizione as Descrizione,
-            entity.ruolo as Ruolo
+            entity.id as ID_User,
+            entity.username as username,
+            entity.mail as mail,
+            entity.password as password,
+            entity.descrizione as descrizione,
+            entity.ruolo as ruolo,
+            entity.id_favourite ad id_favourite,
+            entity.is_mvf as is_mvf,
+            entity.pubkey as pubkey
           
             FROM user AS entity
-            WHERE entity.ID = '`+ ID_User + `'
+            WHERE entity.id = '`+ ID_User + `'
             LIMIT 1
         ;`;
 

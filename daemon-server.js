@@ -29,6 +29,12 @@
 
     // Load module for settings
     const { SettingsMngSingleton } = require('./daemon-kernels/kernel-settings');
+    // eslint-disable-next-line no-unused-vars
+    const { Connection, PublicKey, Transaction, clusterApiUrl } = require('@solana/web3.js');
+
+// Solana connection setup
+    // eslint-disable-next-line no-unused-vars
+    const connection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 
     // Get instance of settings
     const dataConfigs = SettingsMngSingleton.getInstance();
@@ -486,6 +492,8 @@
     //  START: Custom schemas for project
     // ===================================================================== //
     require("./daemon-schemes/schema-login")(fastify);
+    require("./daemon-schemes/schema-poll")(fastify);
+    require("./daemon-schemes/schema-team")(fastify);
 
     // ===================================================================== //
     //  END: Custom schemas for project
@@ -527,6 +535,8 @@
         //  START: Custom routes for project
         // ================================================================= //
         routeLoader(fastify, "user", "handler-user");
+        routeLoader(fastify, "poll", "handler-poll");
+        routeLoader(fastify, "team", "handler-team");
   
 
 

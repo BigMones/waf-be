@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------- //
 
 /**
- * @author:      lsvanzo
+ * @author:      mmmarella
  * @version:     18/01/2021 (dd/mm/yyyy)
  * @description: Installa i vari schemi utili alle rotte RESTful.
  * @type:        Sync Function

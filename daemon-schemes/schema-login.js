@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------- //
 
 /**
- * @author:      lsvanzo
+ * @author:      mmmarella
  * @version:     06/08/2021 (dd/mm/yyyy)
  * @description: Ritorna la lista entities di swagger.
  * @type:        Sync Function
@@ -26,7 +26,7 @@ const moduleObj = Object.freeze((fastify) => {
     // --------------------------------------------------------------------- |
     fastify.addSchema({
         // Common definitions area
-        $id: "SchemaRequestLogin",
+        $id: "SchemaRequestRegister",
         type: "object",
         description: "Describe the identifier of entity.",
         // Parameters match area
@@ -54,6 +54,18 @@ const moduleObj = Object.freeze((fastify) => {
             ruolo: {
                 type: "string",
                 description: "Ruolo dell'utente all'interno della piattaforma ( Admin o Partecipante di Lega )"
+            },
+            id_favourite:{
+                type:"string",
+                description:"ID della squadra favorita"
+            },
+            is_mvf:{
+                type:"string",
+                description: "Controllo se l'utente è un MVF o no"
+            },
+            pubkey:{
+                type:"string",
+                description:"Public Key del Phantom Wallet"
             }
         },
         required:["mail","password","username"]
@@ -82,7 +94,27 @@ const moduleObj = Object.freeze((fastify) => {
             }
         }
     });
-
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaLoginPost",
+        type: "object",
+        description: "Describe the current entity.",
+        // Parameters match area
+        properties: {
+            username: {
+                type: "string",
+                description: "Username"
+            },
+            password: {
+                type: "string",
+                description: "password"
+            },
+            pubkey:{
+                type:"string",
+                description:"Public Key del Phantom Wallet"
+            }
+        }
+    });
     // --------------------------------------------------------------------- |
 
     fastify.addSchema({
@@ -136,12 +168,12 @@ const moduleObj = Object.freeze((fastify) => {
 
     fastify.addSchema({
         // Common definitions area
-        $id: "SchemaRequestLoginToken",
+        $id: "SchemaRequestChangeToken",
         type: "object",
         description: "Describe the identifier of entity.",
         // Parameters match area
         properties: {
-            email: {
+            mail: {
                 type: "string",
                 description: "Email Paziente"
             },
@@ -150,9 +182,22 @@ const moduleObj = Object.freeze((fastify) => {
                 description: "Nome Paziente"
             }
         },
-        required:["email","password"]
+        required:["mail","password"]
     });
-
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaRequestDeleteUser",
+        type: "object",
+        description: "Describe the identifier of entity.",
+        // Parameters match area
+        properties: {
+            mail: {
+                type: "string",
+                description: "Email Paziente"
+            }
+        },
+        required:["mail"]
+    });
     // --------------------------------------------------------------------- |
 
     fastify.addSchema({
@@ -226,6 +271,72 @@ const moduleObj = Object.freeze((fastify) => {
         }
     });
 
+
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaUserInfoPost",
+        type: "object",
+        description: "Describe the current entity.",
+        // Parameters match area
+        properties: {
+            id: {
+                type: "string",
+                description: "id utente"
+            }
+        }
+    });
+    
+    fastify.addSchema({
+        // Common definitions area
+        $id: "SchemaWafInfoPost",
+        type: "object",
+        description: "Describe the current entity.",
+        // Parameters match area
+        properties: {
+            id: {
+                type: "string",
+                description: "id utente"
+            }
+        }
+    });
+    fastify.addSchema({
+        // Common definitions area
+        $id: "schema_waf_validation",
+        description: "check if all fields are correct",
+        type: "object",
+        properties: {
+            rowCount: {
+                type: 'integer'
+            },
+            message: {
+                type: 'string',
+                nullable: true
+            },
+            rows: {
+                type: "array",
+                items: {
+                    username: {
+                        type: "string",
+                        description: "Email Paziente"
+                    },
+                    id_favourite: {
+                        type: "string",
+                        description: "Nome Paziente"
+                    },
+                    mvf_pos: {
+                        type: "string",
+                        description: "Token decode"
+                    },
+                    id: {
+                        type:"string",
+                        description: "Lorem Ipsum"
+                    }
+
+
+                }
+            }
+        }
+    });
 
 });
 
